@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useUser } from "@clerk/nextjs";
 const loadRazorpayScript = () => {
   return new Promise((resolve) => {
     const script = document.createElement("script");
@@ -15,8 +16,8 @@ const loadRazorpayScript = () => {
 
 const PricingPage = () => {
   const [loadingPlan, setLoadingPlan] = useState(null); // Track the plan being processed
-  const user = { email: "jubin.21ubc248@mariancollege.org" }; // Replace with actual user email from your app context or state
-
+  const { user } = useUser(); // Get the authenticated user
+  const userEmail = user?.primaryEmailAddress?.emailAddress || "anonymous@domain.com"; // Safely access user email
   const plans = [
     { id: 1, name: "Basic Plan", credits: 10, price: 100 },
     { id: 2, name: "Premium Plan", credits: 50, price: 400 },
@@ -49,7 +50,7 @@ const PricingPage = () => {
         handler: async (response) => {
           const paymentData = {
             ...response,
-            user_email: user.email,
+            user_email: userEmail,
             credits_purchased: plan.credits,
           };
 
