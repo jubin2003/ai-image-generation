@@ -17,7 +17,7 @@ function ImageSelection({ selectedImage }) {
             return;
         }
         if (selectedFile.size > 10 * 1024 * 1024) { // 10 MB
-            toast.error("File size must be less than 50MB", { position: "top left" });
+            toast.error("File size must be less than 10MB", { position: "top left" });
             return;
         }
 
@@ -27,46 +27,50 @@ function ImageSelection({ selectedImage }) {
     };
 
     return (
-        <div>
-     <ToastContainer />
-        <div className="flex flex-col gap-4 items-center px-4 sm:px-8 md:px-16 lg:px-32">
-       
-            <label htmlFor="upload-image" className="text-gray-600 font-medium text-lg sm:text-xl md:text-2xl ">
-                Select an image of your room
-            </label>
-            <div className="mt-3 w-full max-w-md">
-                <label htmlFor="upload-image">
-                    <div className="p-8 sm:p-12 md:p-18  border rounded-xl border-dotted flex justify-center items-center border-primary bg-slate-200 cursor-pointer hover:shadow-lg transition-all">
-                        {!preview ? (
-                            <Image
-                                src="/image_upload.png" // Corrected path
-                                alt="Upload Icon"
-                                width={90}
-                                height={90}
-                                className="opacity-70 hover:opacity-100 transition"
-                            />
-                        ) : (
-                            <div className="relative w-full h-64 md:h-80 lg:h-96 flex justify-center items-center">
-                                <img
-                                    src={preview}
-                                    alt="Preview"
-                                    className="w-full h-full object-cover rounded"
-                                />
-                            </div>
-                        )}
-                    </div>
-                </label>
-                <input
-                    type="file"
-                    accept="image/*"
-                    id="upload-image"
-                    style={{ display: "none" }}
-                    onChange={onFileSelected}
-                />
+        <div className="p-4">
+  <ToastContainer />
+  <div className="flex flex-col gap-6 items-center">
+    
+    <label htmlFor="upload-image" className="block text-gray-700 font-bold mb-2">
+      Select an image of your room
+    </label>
+    
+  
+    <div className="mt-4 w-full max-w-md">
+      <label htmlFor="upload-image">
+        <div 
+          className="p-12 sm:p-16 border rounded-xl border-dotted flex justify-center items-center border-primary bg-slate-200 
+                     cursor-pointer hover:shadow-lg hover:border-blue-500 transition-all duration-300"
+        >
+          {!preview ? (
+            <Image
+              src="/image_upload.png"
+              alt="Upload Icon"
+              width={80}
+              height={80}
+              className="opacity-70 hover:opacity-100 transition-all"
+            />
+          ) : (
+            <div className="relative w-52 h-52 sm:w-64 sm:h-64 flex justify-center items-center">
+              <img
+                src={preview}
+                alt="Preview"
+                className="w-full h-full object-cover rounded-lg shadow-lg"
+              />
             </div>
+          )}
         </div>
-        
-       </div>
+      </label>
+      <input
+        type="file"
+        accept="image/*"
+        id="upload-image"
+        style={{ display: "none" }}
+        onChange={onFileSelected}
+      />
+    </div>
+  </div>
+</div>
     );
 }
 

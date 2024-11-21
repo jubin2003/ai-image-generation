@@ -28,17 +28,21 @@ function RoomDesign({ room }) {
   
       {/* Room Details */}
       <div className="p-4">
-        <h2 className="text-sm font-medium">😍 Room Type: {room?.room_type}</h2>
-        <h2 className="text-sm font-medium">❤️ Design Type: {room?.design_type}</h2>
+        <h2 className="text-sm font-black">Room Type: {room?.room_type}</h2>
+        <h2 className="text-sm font-medium">Design Type: {room?.design_type}</h2>
       </div>
   
       {/* Dialog */}
       <AiOutputDialog
         aiImage={room?.ai_generated_url}
         orgImage={room?.image_url}
-        closeDialog={() => setOpenDialog(false)} // Ensure setOpenDialog(false) is correctly called
+        closeDialog={() => {
+          console.log("Closing Dialog...");
+          setOpenDialog(false);
+        }}
         openDialog={openDialog}
       />
+
     </div>
   );
 }  

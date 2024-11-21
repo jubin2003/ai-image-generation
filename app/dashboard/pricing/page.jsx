@@ -19,7 +19,7 @@ const PricingPage = () => {
   const { user } = useUser(); // Get the authenticated user
   const userEmail = user?.primaryEmailAddress?.emailAddress || "anonymous@domain.com"; // Safely access user email
   const plans = [
-    { id: 1, name: "Basic Plan", credits: 10, price: 100 },
+    { id: 1, name: "Valuable Plan", credits: 10, price: 100 },
     { id: 2, name: "Premium Plan", credits: 50, price: 400 },
     { id: 3, name: "Enterprise Plan", credits: 100, price: 700 },
   ];
@@ -57,10 +57,11 @@ const PricingPage = () => {
           const verification = await axios.post("/api/verify", paymentData);
           if (verification.data.success) {
             toast.success("Payment Successfull", { position: "top-right" });
-
             setTimeout(() => {
               window.location.reload();
-            }, 2000);
+              window.location.href = "/dashboard"; 
+
+            }, 3000);
           } else {
             toast.error(
               "Payment verification failed. Please contact support.",
