@@ -8,7 +8,8 @@ import DesignType from "../_components/DesignType";
 import AdditionalRequirements from "../_components/AdditionalRequirements";
 import { Button } from "@/components/ui/button";
 import AiOutputDialog from "../_components/AiOutputDialog";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function CreateNew() {
     const { user } = useUser();
     const [formData, setFormData] = useState({});
@@ -26,7 +27,8 @@ function CreateNew() {
 
     const GenerateAiImage = async () => {
         if (!formData.image) {
-            alert("Please select an image before generating!");
+            toast.info("Please select an image before generating!", { position: "top-center" });
+
             return;
         }
 
@@ -41,6 +43,7 @@ function CreateNew() {
             setAiOutputImage(result.data.result);
             setOpenOutputDialog(true); // Show the AI output dialog
         } catch (error) {
+            toast.error("Error generating AI image", { position: "top-left" });
             console.error("Error generating AI image:", error.response?.data || error.message || error);
         } finally {
             setIsLoading(false);
@@ -63,6 +66,7 @@ function CreateNew() {
             });
             return response.data.secure_url;
         } catch (error) {
+            toast.error("Failed to upload the image to Cloudinary. Please try again later.", { position: "top-left" });
             console.error("Cloudinary upload failed:", error.message);
             throw new Error("Failed to upload the image to Cloudinary. Please try again later.");
         }
@@ -71,6 +75,7 @@ function CreateNew() {
     // UseEffect to handle side-effects when the AI image is updated
     useEffect(() => {
         if (aiOutputImage) {
+            toast.success("AI image generated successfully", { position: "top-right" });
             console.log("AI image generated successfully. Triggering updates...");
             setTimeout(() => {
                 window.location.reload();
@@ -83,6 +88,8 @@ function CreateNew() {
 
     return (
         <div className="flex flex-col items-center gap-6 p-8 bg-gray-50 rounded-lg shadow-md">
+                 
+
             <h2 className="font-extrabold text-3xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 text-center leading-tight">
                 Reimagine Your Space with AI-Powered Magic
             </h2>
@@ -120,6 +127,7 @@ function CreateNew() {
                     aiImage={aiOutputImage}
                 />
             )}
+                <ToastContainer />
         </div>
     );
 }

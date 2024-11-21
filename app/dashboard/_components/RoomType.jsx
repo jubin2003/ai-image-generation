@@ -8,27 +8,42 @@ import {
 } from "@/components/ui/select";
 
 function RoomType({ selectedRoomType }) {
-    return (
-        <div className="w-full">
-            <label className="block text-gray-700 font-medium mb-2">Select Room Type</label>
-            <Select onValueChange={(value) => selectedRoomType(value)}>
-                <SelectTrigger className="w-full border border-gray-300 rounded-md p-2 hover:border-gray-400 focus:ring focus:ring-blue-200">
-                    <SelectValue placeholder="Room Type" />
-                </SelectTrigger>
-                <SelectContent className="bg-white shadow-lg rounded-md mt-2">
-                    <SelectItem value="Living Room" className="hover:bg-gray-100 p-2">
-                        Living Room
-                    </SelectItem>
-                    <SelectItem value="Bedroom" className="hover:bg-gray-100 p-2">
-                        Bedroom
-                    </SelectItem>
-                    <SelectItem value="Kitchen" className="hover:bg-gray-100 p-2">
-                        Kitchen
-                    </SelectItem>
-                </SelectContent>
-            </Select>
-        </div>
-    );
+  return (
+    <div className="w-full">
+      <label className="block text-gray-700 font-medium mb-2">
+        Select Room Type
+      </label>
+      <Select onValueChange={(value) => selectedRoomType(value)}>
+        <SelectTrigger className="w-full border border-gray-300 rounded-md p-2 hover:border-gray-400 focus:ring focus:ring-blue-200">
+          <SelectValue placeholder="Room Type" />
+        </SelectTrigger>
+        <SelectContent className="bg-white shadow-lg rounded-md mt-2">
+          <SelectItem value="Living Room" className="hover:bg-gray-100 p-2">
+            Living Room
+          </SelectItem>
+          <SelectItem value="Bedroom" className="hover:bg-gray-100 p-2">
+            Bedroom
+          </SelectItem>
+          <SelectItem value="Kitchen" className="hover:bg-gray-100 p-2">
+            Kitchen
+          </SelectItem>
+          <SelectItem value="Bathroom" className="hover:bg-gray-100 p-2">
+            Bathroom
+          </SelectItem>
+          <SelectItem value="Laundry room" className="hover:bg-gray-100 p-2">
+            Laundry room
+          </SelectItem>
+          <SelectItem
+            value="Guest room" className="hover:bg-gray-100 p-2" >
+            Guest room
+          </SelectItem>
+          <SelectItem value="Dining room" className="hover:bg-gray-100 p-2">
+          Dining room
+          </SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  );
 }
 
 export default RoomType;

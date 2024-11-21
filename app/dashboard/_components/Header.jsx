@@ -10,8 +10,12 @@ function Header() {
   return (
     <div className="p-5 shadow-sm flex justify-between items-center">
       <div className="flex gap-2 items-center">
-        <Image src={"/logo.svg"} width={40} height={40} alt="logo" />
+      <Link href='/dashboard'>
+        <Image src={"/r.png"} width={40} height={40} alt="logo" />
+        </Link>
+        <Link href='/dashboard'>
         <h2 className="font-bold text-lg">RestNest</h2>
+        </Link>
       </div>
       <Link href="/dashboard/pricing">
       <Button variant="ghost" className="rounded-full text-primary">

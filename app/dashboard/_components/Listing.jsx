@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import EmptyState from "./EmptyState";
 import RoomDesign from "./RoomDesign";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Listing() {
   const [userRoomList, setUserRoomList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,9 +22,11 @@ function Listing() {
         if (response.ok) {
           setUserRoomList(data);
         } else {
+          toast.error("Failed to fetch user rooms", { position: "top-left" });
           console.error("Failed to fetch user rooms:", data.error);
         }
       } catch (error) {
+        toast.error("Failed to fetch user rooms", { position: "top-left" });
         console.error("Error fetching user rooms:", error.message);
       } finally {
         setLoading(false);
@@ -36,6 +39,8 @@ function Listing() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
+      <ToastContainer />
+
         <h2 className="font-bold text-3xl">AI Room Studio</h2>
         <Link href="/dashboard/create-new">
           <Button>+ Redesign Room</Button>

@@ -103,6 +103,8 @@ import { getAuth } from "@clerk/nextjs/server"; // For server-side Clerk auth
 import { clerkClient } from "@clerk/clerk-sdk-node";
 import { eq } from "drizzle-orm"; // Correct import for clerkClient
 import { Users } from "@/config/schema";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 cloudinary.v2.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUD_NAME,
   api_key: process.env.NEXT_PUBLIC_CLOUD_API_KEY,
@@ -114,7 +116,7 @@ export async function POST(req) {
     // Authenticate the user
     const { userId } = getAuth(req);
     if (!userId) {
-      throw new Error("Unauthorized: User session is required");
+      toast.error("Unauthorized: User session is required", { position: "top-right" });
     }
 
     // Fetch detailed user information using clerkClient
@@ -131,15 +133,15 @@ export async function POST(req) {
     .where(eq(Users.email, userEmail)); // Correct syntax here
 
   if (!userRecord || userRecord.credits < 5) {
-    throw new Error(
-      "Insufficient credits. Please purchase more to generate an image."
-    );
+    
+    toast.error("Insufficient credits. Please purchase more to generate an image", { position: "top-right" });
+
   }
     // Parse and validate the request body
     const { imageUrl, roomType, designType, additionalRequirement } =
       await req.json();
     if (!imageUrl || !roomType || !designType) {
-      throw new Error("Invalid input: Missing required fields");
+      toast.error("Missing Required Fields", { position: "top-right" });
     }
 
     console.log("Input received:", {
