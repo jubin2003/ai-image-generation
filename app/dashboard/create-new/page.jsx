@@ -41,6 +41,11 @@ function CreateNew() {
         ...formData,
         imageUrl: rawImageUrl,
       });
+       if (result.data.error) {
+      // Show toast if the response contains an error (insufficient credits)
+      toast.error(result.data.error, { position: "top-center" });
+      return;
+    }
       setAiOutputImage(result.data.result);
       setOpenOutputDialog(true);
     } catch (error) {

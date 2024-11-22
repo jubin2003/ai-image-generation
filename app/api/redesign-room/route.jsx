@@ -103,9 +103,9 @@ import { getAuth } from "@clerk/nextjs/server"; // For server-side Clerk auth
 import { clerkClient } from "@clerk/clerk-sdk-node";
 import { eq } from "drizzle-orm"; // Correct import for clerkClient
 import { Users } from "@/config/schema";
-import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Replicate from "replicate"; // Added Replicate import
+import alertGradient from "@material-tailwind/react/theme/components/alert/alertGradient";
 
 // Configure Replicate
 const replicate = new Replicate({
@@ -122,7 +122,7 @@ export async function POST(req) {
     // Authenticate the user
     const { userId } = getAuth(req);
     if (!userId) {
-      toast.error("Unauthorized: User session is required", { position: "top-right" });
+      alert("Unauthorized: User session is required", { position: "top-right" });
     }
 
     // Fetch detailed user information using clerkClient
@@ -139,14 +139,14 @@ export async function POST(req) {
       .where(eq(Users.email, userEmail)); // Correct syntax here
 
     if (!userRecord || userRecord.credits < 5) {
-      toast.error("Insufficient credits. Please purchase more to generate an image", { position: "top-right" });
+      alert("Insufficient credits. Please purchase more to generate an image", { position: "top-right" });
     }
 
     // Parse and validate the request body
     const { imageUrl, roomType, designType, additionalRequirement } =
       await req.json();
     if (!imageUrl || !roomType || !designType) {
-      toast.error("Missing Required Fields", { position: "top-right" });
+      alertGradient("Missing Required Fields", { position: "top-right" });
     }
 
     console.log("Input received:", {
