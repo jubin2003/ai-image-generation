@@ -105,6 +105,12 @@ import { eq } from "drizzle-orm"; // Correct import for clerkClient
 import { Users } from "@/config/schema";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Replicate from "replicate"; // Added Replicate import
+
+// Configure Replicate
+const replicate = new Replicate({
+  auth: process.env.NEXT_PUBLIC_REPLICATE_API_TOKEN,
+});
 cloudinary.v2.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUD_NAME,
   api_key: process.env.NEXT_PUBLIC_CLOUD_API_KEY,
@@ -128,15 +134,14 @@ export async function POST(req) {
     }
     // Check if user has enough credits
     const [userRecord] = await db
-    .select()
-    .from(Users)
-    .where(eq(Users.email, userEmail)); // Correct syntax here
+      .select()
+      .from(Users)
+      .where(eq(Users.email, userEmail)); // Correct syntax here
 
-  if (!userRecord || userRecord.credits < 5) {
-    
-    toast.error("Insufficient credits. Please purchase more to generate an image", { position: "top-right" });
+    if (!userRecord || userRecord.credits < 5) {
+      toast.error("Insufficient credits. Please purchase more to generate an image", { position: "top-right" });
+    }
 
-  }
     // Parse and validate the request body
     const { imageUrl, roomType, designType, additionalRequirement } =
       await req.json();
@@ -153,18 +158,23 @@ export async function POST(req) {
       additionalRequirement,
     });
 
-    // Dummy AI-generated image URL for testing
-    const aiGeneratedImage =
-      "https://via.placeholder.com/600x400.png?text=AI+Generated+Image";
+    // Generate AI-generated image using Replicate
+    const aiGeneratedImage = await generateRoomDesign({
+      image: imageUrl,
+      prompt:`A ${roomType} with a ${designType}. ${additionalRequirement}`,
+    });
+
+    console.log("Generated AI Image URL:", aiGeneratedImage);
 
     // Upload the AI-generated image to Cloudinary
     const uploadedImageUrl = await uploadToCloudinary(aiGeneratedImage);
     console.log("Uploaded Cloudinary URL:", uploadedImageUrl);
-     // Deduct credits
-     await db
-     .update(Users)
-     .set({ credits: userRecord.credits - 5 })
-     .where(eq(Users.email, userEmail))
+
+    // Deduct credits
+    await db
+      .update(Users)
+      .set({ credits: userRecord.credits - 5 })
+      .where(eq(Users.email, userEmail));
 
     // Insert into database
     const record = await db.insert(roomDesigns).values({
@@ -188,6 +198,23 @@ export async function POST(req) {
       { error: error.message || "Unknown error occurred" },
       { status: 500 }
     );
+  }
+}
+
+// Function to generate room design using Replicate
+// Function to generate room design using Replicate
+async function generateRoomDesign(input) {
+  try {
+    const output = await replicate.run(
+      "adirik/interior-design:76604baddc85b1b4616e1c6475eca080da339c8875bd4996705440484a6eac38",
+      {
+        input,
+      }
+    );
+    return output;
+  } catch (error) {
+    console.error("Error in generateRoomDesign:", error);
+    throw new Error("Error generating room design with Replicate.");
   }
 }
 

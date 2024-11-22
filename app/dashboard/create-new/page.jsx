@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import AiOutputDialog from "../_components/AiOutputDialog";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 function CreateNew() {
   const { user } = useUser();
   const [formData, setFormData] = useState({});
@@ -81,7 +80,7 @@ function CreateNew() {
       setTimeout(() => {
         window.location.reload();
         window.location.href = "/dashboard"; 
-      }, 5000);
+      }, 3000);
      
       setFormData({});
     }
@@ -118,14 +117,14 @@ function CreateNew() {
         {isLoading ? "Generating..." : "Generate"}
       </Button>
 
-      {openOutputDialog && (
+      {/* {openOutputDialog && (
         <AiOutputDialog
           openDialog={openOutputDialog}
           closeDialog={() => setOpenOutputDialog(false)} // Ensure dialog close works
           orgImage={formData.image ? URL.createObjectURL(formData.image) : ""}
           aiImage={aiOutputImage}
         />
-      )}
+      )} */}
       <ToastContainer />
     </div>
   );

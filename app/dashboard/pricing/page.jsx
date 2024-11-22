@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useUser } from "@clerk/nextjs";
+
 const loadRazorpayScript = () => {
   return new Promise((resolve) => {
     const script = document.createElement("script");
@@ -24,7 +25,6 @@ const PricingPage = () => {
     { id: 3, name: "Enterprise Plan", credits: 100, price: 700 },
   ];
 
-  
   const handlePayment = async (plan) => {
     setLoadingPlan(plan.id);
 
@@ -59,8 +59,7 @@ const PricingPage = () => {
             toast.success("Payment Successfull", { position: "top-right" });
             setTimeout(() => {
               window.location.reload();
-              window.location.href = "/dashboard"; 
-
+              window.location.href = "/dashboard";
             }, 3000);
           } else {
             toast.error(
@@ -81,17 +80,18 @@ const PricingPage = () => {
   };
 
   return (
-    <div className="p-4 sm:p-8 lg:p-16">
-           <ToastContainer />
+    <div className="p-4 sm:p-8 lg:p-16 bg-gray-50 min-h-screen flex flex-col justify-between">
+      <ToastContainer />
 
       <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
         Pricing Plans
       </h1>
+
       <ul className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {plans.map((plan) => (
           <li
             key={plan.id}
-            className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105"
+            className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 flex flex-col justify-between"
           >
             <div className="p-1 bg-green-200"></div>
             <div className="p-8">
@@ -135,6 +135,12 @@ const PricingPage = () => {
           </li>
         ))}
       </ul>
+
+      <footer className="text-center mt-16 py-4 bg-gray-100">
+        <p className="text-sm text-gray-600">
+          © {new Date().getFullYear()} Rest Nest. All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 };
