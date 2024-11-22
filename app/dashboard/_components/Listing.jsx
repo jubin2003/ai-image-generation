@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import EmptyState from "./EmptyState";
-import RoomDesign from "./RoomDesign";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BookingCard } from "./BookingCard";
@@ -38,6 +37,11 @@ function Listing() {
     fetchUserRooms();
   }, []);
 
+  // Sort userRoomList by creation date (descending)
+  const sortedUserRoomList = userRoomList.sort((a, b) => 
+    new Date(b.created_at) - new Date(a.created_at)
+  );
+
   return (
     <div className="min-h-screen flex flex-col justify-between">
       {/* Header */}
@@ -64,7 +68,7 @@ function Listing() {
         {!loading && userRoomList.length > 0 && (
           <div className="mt-10">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {userRoomList.map((room, index) => (
+              {sortedUserRoomList.map((room, index) => (
                 <BookingCard key={index} room={room} />
               ))}
             </div>
