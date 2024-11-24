@@ -1,100 +1,3 @@
-// import { NextResponse } from 'next/server';
-// import cloudinary from 'cloudinary';
-// import { db } from '@/config/db'; // Adjust the import path for your Drizzle instance
-// import { roomDesigns } from '@/config/schema'; // Adjust the import path for your schema
-
-// // Cloudinary Configuration
-// cloudinary.v2.config({
-//     cloud_name: process.env.NEXT_PUBLIC_CLOUD_NAME,
-//     api_key: process.env.NEXT_PUBLIC_CLOUD_API_KEY,
-//     api_secret: process.env.NEXT_PUBLIC_CLOUD_API_SECRET,
-// });
-
-// export async function POST(req) {
-//     try {
-//         const { imageUrl, roomType, designType, additionalRequirement } = await req.json();
-
-//         // Validate input
-//         if (!imageUrl || !roomType || !designType) {
-//             throw new Error("Invalid input: Missing required fields");
-//         }
-
-//         console.log("Input received:", { imageUrl, roomType, designType, additionalRequirement });
-
-//         // Use a dummy AI-generated image URL for testing
-//         const aiGeneratedImage = "https://via.placeholder.com/600x400.png?text=AI+Generated+Image";
-
-//         // Commented the API call for testing purposes
-//         /*
-//         const aiGeneratedImage = await regenerateImage(imageUrl, designType, roomType, additionalRequirement);
-//         */
-
-//         // Upload the AI-generated image to Cloudinary
-//         const uploadedImageUrl = await uploadToCloudinary(aiGeneratedImage);
-
-//         console.log("Uploaded Cloudinary URL:", uploadedImageUrl);
-
-//         // Save to Neon database
-//         const record = await db.insert(roomDesigns).values({
-//             roomType,
-//             designType,
-//             additionalRequirement,
-//             imageUrl, // Original image URL
-//             aiGeneratedUrl: uploadedImageUrl, // AI-generated Cloudinary URL
-//             userEmail: '', // Assuming userEmail is optional; adjust if needed
-//         });
-
-//         console.log("Database record inserted:", record);
-
-//         return NextResponse.json({ result: uploadedImageUrl });
-//     } catch (error) {
-//         console.error("Error in POST /redesign-room:", error.stack || error.message || error);
-//         return NextResponse.json({ error: error.message || "Unknown error occurred" }, { status: 500 });
-//     }
-// }
-
-// // Function to regenerate the image using Replicate API
-// // Commented out for testing purposes
-// /*
-// async function regenerateImage(originalImageUrl, designType, roomType, additionalRequirement) {
-//     try {
-//         console.log("Calling Replicate API for image regeneration...");
-
-//         const input = {
-//             image: originalImageUrl,
-//             prompt: `A ${roomType} with a ${designType}. ${additionalRequirement || ""}`,
-//         };
-
-//         const output = await replicate.run(
-//             "adirik/interior-design:76604baddc85b1b4616e1c6475eca080da339c8875bd4996705440484a6eac38",
-//             { input }
-//         );
-
-//         console.log("Generated image URL from Replicate:", output);
-//         if (!output) {
-//             throw new Error("Failed to regenerate image via Replicate");
-//         }
-
-//         return output; // Directly returning the AI-generated image URL
-//     } catch (error) {
-//         console.error("Error regenerating image:", error);
-//         throw new Error("Image regeneration failed");
-//     }
-// }
-// */
-
-// // Upload image to Cloudinary
-// async function uploadToCloudinary(imageUrl) {
-//     try {
-//         const response = await cloudinary.v2.uploader.upload(imageUrl, {
-//             folder: "room_designs",
-//         });
-//         return response.secure_url;
-//     } catch (error) {
-//         console.error("Cloudinary upload failed:", error.message);
-//         throw new Error(`Cloudinary upload failed: ${error.message}`);
-//     }
-// }
 import { NextResponse } from "next/server";
 import cloudinary from "cloudinary";
 import { db } from "@/config/db"; // Adjust to your database instance
@@ -201,7 +104,6 @@ export async function POST(req) {
   }
 }
 
-// Function to generate room design using Replicate
 // Function to generate room design using Replicate
 async function generateRoomDesign(input) {
   try {
