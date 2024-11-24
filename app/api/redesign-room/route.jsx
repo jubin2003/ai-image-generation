@@ -108,7 +108,7 @@ export async function POST(req) {
 async function generateRoomDesign(input) {
   try {
     const output = await replicate.run(
-      "adirik/interior-design:76604baddc85b1b4616e1c6475eca080da339c8875bd4996705440484a6eac38",
+      process.env.NEXT_PUBLIC_REPLICATE_AI_MODEL,
       {
         input,
       }

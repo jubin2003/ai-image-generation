@@ -56,6 +56,7 @@ NEXT_PUBLIC_DB_URL=
 RAZORPAY_KEY_ID=
 RAZORPAY_KEY_SECRET=
 NEXT_PUBLIC_RAZORPAY_KEY_ID=
+NEXT_PUBLIC_REPLICATE_AI_MODEL=
 ```
 
 Fill these variables with the appropriate values for your project. Contact the respective service providers for API keys and credentials.
